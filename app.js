@@ -43,6 +43,17 @@ app.get('/api/products', async (req, res) => {
   res.json(products)
 })
 
+// Отримання продукту за ID (НОВИЙ МАРШРУТ)
+app.get('/api/products/:id', async (req, res) => {
+  const id = parseInt(req.params.id)
+  const products = await readProducts()
+  const product = products.find((p) => p.id === id)
+  if (!product) {
+    return res.status(404).json({ error: 'Product not found' })
+  }
+  res.json(product)
+})
+
 // Пошук за назвою (частковий збіг)
 app.get('/api/products/search', async (req, res) => {
   const query = req.query.q ? req.query.q.toLowerCase() : ''
